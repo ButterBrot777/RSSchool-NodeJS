@@ -1,5 +1,21 @@
+/**
+ * Task model
+ * @module task/model
+ */
+
 const { v4: uuidv4 } = require('uuid');
 
+/**
+ * Task instance
+ * @typedef {Object} Task
+ * @property {String} id id
+ * @property {String} title title
+ * @property {String} order order
+ * @property {String} description description
+ * @property {String} userId user id
+ * @property {String} boardId board id
+ * @property {String} columnId column id
+ */
 class Task {
   constructor({
     id = uuidv4(),
