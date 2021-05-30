@@ -2,7 +2,8 @@
  * Task service
  * @module task/service
  */
-const tasksRepo = require('./task.memory.repository');
+import * as tasksRepo from './task.memory.repository';
+import { ITask } from './task.model';
 
 /**
  * To get all tasks on concrete board
@@ -10,7 +11,7 @@ const tasksRepo = require('./task.memory.repository');
  * @returns {Promise<Array<Task>>} promise (array) of tasks on concrete board
  * {@link module:task/repository}
  */
-const getAll = (boardId) => tasksRepo.getAll(boardId);
+const getAll = (boardId: string): Promise<ITask[]> => tasksRepo.getAll(boardId);
 
 /**
  * To get one task by his id
@@ -18,7 +19,7 @@ const getAll = (boardId) => tasksRepo.getAll(boardId);
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const getByID = id => tasksRepo.getByID(id);
+const getByID = (id: string): Promise<ITask> => tasksRepo.getByID(id);
 // const getByID = (boardId, taskId) => {
 //     const res = DB.tasks.filter((task) => task.boardId === boardId && task.id === taskId)[0];
 //     return res;
@@ -31,7 +32,7 @@ const getByID = id => tasksRepo.getByID(id);
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const create = (boardId, body) => tasksRepo.create(boardId, body);
+const create = (boardId: string, body: ITask) => tasksRepo.create(boardId, body);
 
 /**
  * Forwards new props to be applied to task on board
@@ -40,13 +41,13 @@ const create = (boardId, body) => tasksRepo.create(boardId, body);
  * @returns {Promise<Task>}
  * {@link module:task/repository}
  */
-const update = (id, body) => tasksRepo.update(id, body);
+const update = (id: string, body: ITask) => tasksRepo.update(id, body);
 
 /**
  * To delete task
  * @param {String} id task id
  * {@link module:task/repository}
  */
-const remove = id => tasksRepo.remove(id);
+const remove = (id: string): Promise<ITask[]> => tasksRepo.remove(id);
 
-module.exports = {getAll, getByID, create, update, remove};
+export {getAll, getByID, create, update, remove};

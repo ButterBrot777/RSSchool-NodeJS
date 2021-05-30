@@ -2,14 +2,15 @@
  * User service
  * @module users/service
  */
-const usersRepo = require('./user.memory.repository');
+import { IUser, User } from './user.model';
+import * as usersRepo from './user.memory.repository'
 
 /**
  * To get all users
  * @returns {Promise<Array<User>>} promise (array) of users
  * {@link module:user/repository}
  */
-const getAll = () => usersRepo.getAll();
+const getAll = (): Promise<User[]> => usersRepo.getAll();
 
 /**
  * To get simple user by his id
@@ -17,7 +18,7 @@ const getAll = () => usersRepo.getAll();
  * @returns {Promise<User>} promise, one simple user
  * {@link module:user/repository}
  */
-const getByID = id => usersRepo.getByID(id);
+const getByID = (id: string): Promise<User> => usersRepo.getByID(id);
 
 /**
  * To create a user instance
@@ -25,7 +26,7 @@ const getByID = id => usersRepo.getByID(id);
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const create = user => usersRepo.create(user);
+const create = (user: IUser): Promise<User | undefined> => usersRepo.create(user);
 
 /**
  * To update some user data
@@ -34,7 +35,7 @@ const create = user => usersRepo.create(user);
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const update = (id, body) => usersRepo.update(id, body);
+const update = (id: string, body: IUser): Promise<User | undefined> => usersRepo.update(id, body);
 
 /**
  * To delete some user
@@ -42,6 +43,6 @@ const update = (id, body) => usersRepo.update(id, body);
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const remove = id => usersRepo.remove(id);
+const remove = (id: string): Promise<User> => usersRepo.remove(id);
 
-module.exports = { getAll, getByID, create, update, remove };
+export { getAll, getByID, create, update, remove };

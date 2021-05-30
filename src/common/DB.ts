@@ -14,7 +14,7 @@ const { v4: uuidv4 } = require('uuid');
  * @property {String} login user login
  * @property {String} password user password
   */
-const User = require('../resources/users/user.model');
+import {IUser, User} from '../resources/users/user.model';
 
 /**
  * Board instance
@@ -24,7 +24,7 @@ const User = require('../resources/users/user.model');
  * @property {String} title board title
  * @property {Array<Column>} columns some array of Column instances
  */
-const Board = require('../resources/boards/board.model');
+import { Board, IBoard } from '../resources/boards/board.model';
 
 /**
  * Task instance
@@ -38,7 +38,7 @@ const Board = require('../resources/boards/board.model');
  * @property {String} columnId id of column
  * @property {String} order some order
  */
-const Task = require('../resources/tasks/task.model');
+import {ITask, Task} from "../resources/tasks/task.model";
 
 /**
  * Database as an object
@@ -47,7 +47,11 @@ const Task = require('../resources/tasks/task.model');
  * @property {Array<Board>} array of Boards
  * @property {Array<Task>} array of Tasks
   */
-const DB = {
+const DB: {
+  users: IUser[];
+  boards: IBoard[];
+  tasks: ITask[];
+} = {
   users: [],
   boards: [],
   tasks: []
@@ -68,7 +72,7 @@ DB.tasks.push(
  * To remove all tasks belongs to concrete user
  * @param {String} userId user id
  */
-function removeUserTasks(userId) {
+function removeUserTasks(userId: string): void {
   DB.tasks.forEach((task, index) => {
     if (task.userId === userId) {
       DB.tasks[index] = { ...task, userId: null }
@@ -80,7 +84,7 @@ function removeUserTasks(userId) {
  * To remove all tasks on concrete board
  * @param {String} boardId board id
  */
-function removeBoardTasks(boardId) {
+function removeBoardTasks(boardId: string): void {
   const newTasks = DB.tasks.filter(task => task.boardId !== boardId);
   DB.tasks = newTasks;
 }
@@ -92,7 +96,7 @@ function removeBoardTasks(boardId) {
  * @returns {Promise<Array<User>>} promise (array) of users
  * {@link module:user/repository}
  */
-const getAllUsers = async () => DB.users.slice(0);
+const getAllUsers = async (): Promise<User[]> => DB.users.slice(0);
 
 /**
  * To get simple user by his id
@@ -100,7 +104,7 @@ const getAllUsers = async () => DB.users.slice(0);
  * @returns {Promise<User>} promise, one simple user
  * {@link module:user/repository}
  */
-const getUserByID = async id => DB.users.filter(user => user.id === id)[0];
+const getUserByID = async (id: string): Promise<User | undefined> => DB.users.filter(user => user.id === id)[0];
 
 /**
  * To create a user instance
@@ -108,9 +112,9 @@ const getUserByID = async id => DB.users.filter(user => user.id === id)[0];
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const createUser = async user => {
+const createUser = async (user: IUser): Promise<User | undefined> => {
   DB.users.push(user);
-  return getUserByID(user.id);
+  return getUserByID(user.id!);
 };
 
 /**
@@ -120,14 +124,14 @@ const createUser = async user => {
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const updateUser = async (dbUser, body) => {
+const updateUser = async (dbUser: IUser, body: IUser): Promise<User | undefined> => {
   const userIndex = DB.users.findIndex(user => user.id === dbUser.id);
 
-  DB.users[userIndex].name = body.name;
-  DB.users[userIndex].login = body.login;
-  DB.users[userIndex].password = body.password;
+  DB.users[userIndex]!.name = body.name;
+  DB.users[userIndex]!.login = body.login;
+  DB.users[userIndex]!.password = body.password;
 
-  return DB.users[userIndex];
+  return DB.users[userIndex]!;
 };
 
 /**
@@ -141,13 +145,13 @@ const updateUser = async (dbUser, body) => {
  * @returns {Promise<void>} promise, one user
  * {@link module:user/repository}
  */
-const removeUser = async user => {
-  const userIndex = DB.users.findIndex(userUnit => userUnit.id === user.id);
+const removeUser = async (user: IUser): Promise<void> => {
+  const userIndex: number = DB.users.findIndex(userUnit => userUnit.id === user.id);
   const lastUser = DB.users.pop();
   if (DB.users.length > 0 && lastUser !== user) {
-    DB.users[userIndex] = lastUser;
+    DB.users[userIndex] = lastUser!;
   }
-  removeUserTasks(user.id);
+  removeUserTasks(user.id!);
 };
 
 // action for boards
@@ -157,7 +161,7 @@ const removeUser = async user => {
  * @returns {Promise<Array<Board>>} promise (array) of boards
  * {@link module:board/repository}
  */
-const getAllBoards = async () => DB.boards.slice(0);
+const getAllBoards = async (): Promise<Board[]> => DB.boards.slice(0);
 
 /**
  * To get simple board by his id
@@ -165,7 +169,7 @@ const getAllBoards = async () => DB.boards.slice(0);
  * @returns {Promise<Board>} promise, one simple board
  * {@link module:board/repository}
  */
-const getBoardByID = async id => DB.boards.filter(board => board.id === id)[0];
+const getBoardByID = async (id: string): Promise<Board | undefined> => DB.boards.filter(board => board.id === id)[0];
 
 /**
  * To create a board instance
@@ -173,9 +177,9 @@ const getBoardByID = async id => DB.boards.filter(board => board.id === id)[0];
  * @returns {Promise<User>} promise, one board
  * {@link module:board/repository}
  */
-const createBoard = async board => {
+const createBoard = async (board: IBoard): Promise<Board | undefined> => {
   DB.boards.push(board);
-  return getBoardByID(board.id);
+  return getBoardByID(board.id!);
 };
 
 /**
@@ -185,17 +189,18 @@ const createBoard = async board => {
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const updateBoard = async (dbBoard, body) => {
-  const boardIndex = DB.boards.findIndex(board => board.id === dbBoard.id);
+const updateBoard = async (dbBoard: IBoard, body: IBoard): Promise<Board | undefined> => {
+  return Object.assign(dbBoard, {...body});
 
-  DB.boards[boardIndex].title = body.title
-    ? body.title
-    : DB.boards[dbBoard.id].title;
-  DB.boards[boardIndex].columns = body.columns
-    ? body.columns
-    : DB.boards[dbBoard.id].columns;
-
-  return DB.boards[boardIndex];
+  // const boardIndex: number = DB.boards.findIndex(board => board.id === dbBoard.id);
+  // DB.boards[boardIndex]!.title = body.title
+  //   ? body.title
+  //   : DB.boards[dbBoard.id].title!;
+  // DB.boards[boardIndex]!.columns = body.columns
+  //   ? body.columns
+  //   : DB.boards[dbBoard.id].columns;
+  //
+  // return DB.boards[boardIndex];
 };
 
 /**
@@ -204,15 +209,15 @@ const updateBoard = async (dbBoard, body) => {
  * @returns {Promise<void>} promise, one board
  * {@link module:board/repository}
  */
-const removeBoard = async board => {
+const removeBoard = async (board: IBoard): Promise<void> => {
   const boardIndex = DB.boards.findIndex(
     boardElem => boardElem.id === board.id
   );
   const lastBoard = DB.boards.pop();
   if (DB.boards.length > 0 && lastBoard !== board) {
-    DB.boards[boardIndex] = lastBoard;
+    DB.boards[boardIndex] = lastBoard!;
   }
-  removeBoardTasks(board.id);
+  removeBoardTasks(board.id!);
 };
 
 // actions for tasks
@@ -223,7 +228,7 @@ const removeBoard = async board => {
  * @returns {Array<Task>} array of tasks on concrete board
  * {@link module:task/repository}
  */
-const getAllTasks = boardId => DB.tasks.filter((task) => task.boardId === boardId);
+const getAllTasks = (boardId: string): Task[] => DB.tasks.filter((task) => task.boardId === boardId);
 
 /**
  * To get one task by his id
@@ -231,16 +236,16 @@ const getAllTasks = boardId => DB.tasks.filter((task) => task.boardId === boardI
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const getTaskByID = async id => DB.tasks.filter(task => task.id === id)[0];
+const getTaskByID = async (id: string): Promise<Task | undefined> => DB.tasks.filter(task => task.id === id)[0];
 
 /**
  * To create a new task
  * @param {String} boardId board id
  * @param {Object} body some object
- * @returns {Promise<Task>} promise, one task
+ * @returns {Task} one task
  * {@link module:task/repository}
  */
-const createTask = (boardId, body) => {
+const createTask = (boardId: string, body: ITask): Task | undefined => {
   const id = uuidv4();
   const newTask = new Task({ id, ...body, boardId });
   DB.tasks.push(newTask);
@@ -254,7 +259,7 @@ const createTask = (boardId, body) => {
  * @returns {Promise<Task>}
  * {@link module:task/repository}
  */
-const updateTask = async (taskId, body) => {
+const updateTask = async (taskId: string, body: ITask): Promise<Task | undefined> => {
   const taskIndex = DB.tasks.findIndex(task => task.id === taskId);
   DB.tasks[taskIndex] = {
     id:taskId,
@@ -270,12 +275,12 @@ const updateTask = async (taskId, body) => {
  * @returns {Array<Task>} array of tasks
  * {@link module:task/repository}
  */
-const removeTask = async id => {
+const removeTask = async (id:string): Promise<Task[]> => {
   const taskIndex = DB.tasks.findIndex(taskElem => taskElem.id === id);
   return DB.tasks.splice(taskIndex, 1);
 };
 
-module.exports = {
+export {
   getAllUsers,
   getUserByID,
   createUser,

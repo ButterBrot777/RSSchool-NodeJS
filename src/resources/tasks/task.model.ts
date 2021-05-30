@@ -4,7 +4,15 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
-
+export interface ITask {
+  id?: string;
+  title?: string;
+  order?: string;
+  description?: string;
+  userId?: string | null;
+  boardId?: string | null;
+  columnId?: string | null;
+}
 /**
  * Task instance
  * @typedef {Object} Task
@@ -16,7 +24,15 @@ const { v4: uuidv4 } = require('uuid');
  * @property {String} boardId board id
  * @property {String} columnId column id
  */
-class Task {
+export class Task {
+  id: string;
+  title: string;
+  order: string;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
+
   constructor({
     id = uuidv4(),
     title = 'Task',
@@ -25,7 +41,7 @@ class Task {
     userId = 'userId',
     boardId = 'boardId',
     columnId = 'columnId'
-  } = {}) {
+  }: ITask = {}) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -35,5 +51,3 @@ class Task {
     this.columnId = columnId;
   }
 }
-
-module.exports = Task;

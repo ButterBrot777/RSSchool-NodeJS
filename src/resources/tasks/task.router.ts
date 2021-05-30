@@ -1,5 +1,7 @@
-const router = require('express').Router();
-const tasksService = require('./task.service');
+import express from 'express';
+import * as tasksService from './task.service';
+
+export const router = express.Router();
 
 router.route('/:boardId/tasks').get(async (req, res) => {
     const tasks = await tasksService.getAll(req.params.boardId);
@@ -37,5 +39,3 @@ router.route('/:boardId/tasks/:id').delete(async (req, res) => {
     res.status(404).send(error.message);
   }
 });
-
-module.exports = router;

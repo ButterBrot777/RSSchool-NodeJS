@@ -2,14 +2,15 @@
  * Board service
  * @module boards/service
  */
-const boardsRepo = require('./board.memory.repository');
+import * as boardsRepo from './board.memory.repository';
+import { IBoard } from './board.model';
 
 /**
  * To get all boards
  * @returns {Promise<Array<Board>>} promise (array) of boards
  * {@link module:board/repository}
  */
-const getAll = () => boardsRepo.getAll();
+const getAll = (): Promise<IBoard[]> => boardsRepo.getAll();
 
 /**
  * To get simple board by his id
@@ -17,7 +18,7 @@ const getAll = () => boardsRepo.getAll();
  * @returns {Promise<Board>} promise, one simple board
  * {@link module:board/repository}
  */
-const getByID = id => boardsRepo.getByID(id);
+const getByID = (id: string): Promise<IBoard> => boardsRepo.getByID(id);
 
 /**
  * To create a board instance
@@ -25,7 +26,7 @@ const getByID = id => boardsRepo.getByID(id);
  * @returns {Promise<User>} promise, one board
  * {@link module:board/repository}
  */
-const create = board => boardsRepo.create(board);
+const create = (board: IBoard): Promise<IBoard | undefined> => boardsRepo.create(board);
 
 /**
  * To update some board data
@@ -34,7 +35,7 @@ const create = board => boardsRepo.create(board);
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const update = (id, body) => boardsRepo.update(id, body);
+const update = (id: string, body: IBoard): Promise<IBoard> => boardsRepo.update(id, body);
 
 /**
  * To delete some board
@@ -42,6 +43,6 @@ const update = (id, body) => boardsRepo.update(id, body);
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const remove = id => boardsRepo.remove(id);
+const remove = async (id: string): Promise<IBoard> => boardsRepo.remove(id);
 
-module.exports = { getAll, getByID, create, update, remove };
+export { getAll, getByID, create, update, remove };

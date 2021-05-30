@@ -1,9 +1,10 @@
-const router = require('express').Router();
-const Board = require('./board.model');
-const boardsService = require('./board.service');
+import express from 'express';
+import {Board} from './board.model';
+import * as boardsService from './board.service';
+export const router = express.Router();
 // const { catchErrors } = require('../../common/errorHandler');
 
-router.route('/').get(async (req, res) => {
+router.route('/').get(async (_req, res) => {
   const boards = await boardsService.getAll();
   res.json(boards);
 });

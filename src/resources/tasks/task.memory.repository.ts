@@ -2,7 +2,8 @@
  * Task repository
  * @module task/repository
  */
-const DB = require('../../common/DB');
+import * as DB from '../../common/DB';
+import { ITask } from './task.model';
 
 /**
  * To get all tasks on concrete board
@@ -10,7 +11,7 @@ const DB = require('../../common/DB');
  * @returns {Promise<Array<Task>>} promise (array) of tasks on concrete board
  * {@link module:task/repository}
  */
-const getAll = async (boardId) => DB.getAllTasks(boardId);
+const getAll = async (boardId: string):Promise<ITask[]> => DB.getAllTasks(boardId);
 
 /**
  * To get one task by his id
@@ -18,7 +19,7 @@ const getAll = async (boardId) => DB.getAllTasks(boardId);
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const getByID = async id => {
+const getByID = async (id: string): Promise<ITask> => {
   const task = await DB.getTaskByID(id);
   if (!task) {
     throw new Error(`Task with id ${id} was not found`);
@@ -33,7 +34,7 @@ const getByID = async id => {
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const create = async (boardId, body) => DB.createTask(boardId, body);
+const create = async (boardId: string, body: ITask): Promise<ITask | undefined> => DB.createTask(boardId, body);
 
 /**
  * Forwards new props to be applied to task on board
@@ -42,7 +43,7 @@ const create = async (boardId, body) => DB.createTask(boardId, body);
  * @returns {Promise<Task>}
  * {@link module:task/repository}
  */
-const update = async (id, body) => {
+const update = async (id: string, body: ITask): Promise<ITask> => {
   const dbTask = await DB.updateTask(id, body);
   if (!dbTask) {
     throw new Error(`Task with id ${id} was not found`);
@@ -56,7 +57,7 @@ const update = async (id, body) => {
  * @returns {Promise<Task>} task one task
  * {@link module:task/repository}
  */
-const remove = async id => {
+const remove = async (id: string): Promise<ITask[]> => {
   const dbTask = await DB.removeTask(id);
   if (!dbTask) {
     throw new Error(`Task with id ${id} was not found`);
@@ -64,4 +65,4 @@ const remove = async id => {
   return dbTask;
 };
 
-module.exports = { getAll, getByID, create, update, remove };
+export { getAll, getByID, create, update, remove };

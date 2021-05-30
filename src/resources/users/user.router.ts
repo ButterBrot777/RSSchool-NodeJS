@@ -1,9 +1,10 @@
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
-// const { catchErrors } = require('../../common/errorHandler');
+import express from 'express';
+import {User} from './user.model';
+import * as usersService from './user.service';
 
-router.route('/').get(async (req, res) => {
+export const router = express.Router();
+
+router.route('/').get(async (_req, res) => {
   const users = await usersService.getAll();
   // map user fields to exclude secret fields like "password"
   res.json(users.map(User.toResponse));
@@ -73,7 +74,7 @@ router.route('/:id').put(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   try {
     const deleted = await usersService.remove(req.params.id);
-    res.json(User.toResponse(deleted));
+    res.json(User.toResponse(deleted!));
   } catch (error) {
     res.status(404).send(error.message);
   }
@@ -89,5 +90,3 @@ router.route('/:id').delete(async (req, res) => {
 //     }
 //   })
 // );
-
-module.exports = router;

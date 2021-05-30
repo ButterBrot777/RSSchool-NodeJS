@@ -2,15 +2,15 @@
  * User repository
  * @module user/repository
  */
-
-const DB = require('../../common/DB');
+import * as DB from '../../common/DB';
+import { IUser, User } from './user.model';
 
 /**
  * To get all users
  * @returns {Promise<Array<User>>} promise (array) of users
  * {@link module:user/repository}
  */
-const getAll = async () => DB.getAllUsers();
+const getAll = async (): Promise<User[]> => DB.getAllUsers();
 
 /**
  * To get simple user by his id
@@ -18,7 +18,7 @@ const getAll = async () => DB.getAllUsers();
  * @returns {Promise<User>} promise, one simple user
  * {@link module:user/repository}
  */
-const getByID = async id => {
+const getByID = async (id:string): Promise<User> => {
   const user = await DB.getUserByID(id);
   if (!user) {
     throw new Error(`User with id ${id} was not found`);
@@ -32,7 +32,7 @@ const getByID = async id => {
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const create = async user => DB.createUser(user);
+const create = async (user: IUser): Promise<User | undefined> => DB.createUser(user);
 
 /**
  * To update some user data
@@ -41,7 +41,7 @@ const create = async user => DB.createUser(user);
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const update = async (id, body) => {
+const update = async (id: string, body:IUser): Promise<User | undefined> => {
   const userFromDB = await DB.getUserByID(id);
   if (!userFromDB) {
     throw new Error(`User with id ${id} was not found`);
@@ -59,16 +59,15 @@ const update = async (id, body) => {
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const remove = async id => {
+const remove = async (id: string): Promise<User> => {
   const user = await DB.getUserByID(id);
 
   if (!user) {
     throw new Error(`User with id ${id} was not found`);
   }
 
-  const userToRemove = { ...user};
-  await DB.removeUser(userToRemove);
-  return userToRemove;
+  await DB.removeUser(user);
+  return user;
 };
 
-module.exports = { getAll, getByID, create, update, remove };
+export { getAll, getByID, create, update, remove };

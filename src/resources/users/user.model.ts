@@ -4,7 +4,12 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
-
+export interface IUser {
+  id?: string;
+  name?: string;
+  login?: string;
+  password?: string;
+}
 /**
  * @type {User}
  * @param {data} data object with user  data
@@ -13,7 +18,12 @@ const { v4: uuidv4 } = require('uuid');
  * @param {String} login user login
  * @param {String} password user password
  */
-class User {
+export class User implements IUser {
+  id: string;
+  name: string;
+  login: string;
+  password: string;
+
   constructor({
     id = uuidv4(),
     name = 'USER',
@@ -31,10 +41,8 @@ class User {
    * @param {User} user user instance
    * @returns {Object} object exclude password field
    */
-  static toResponse(user) {
+  static toResponse(user: IUser) {
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
-
-module.exports = User;

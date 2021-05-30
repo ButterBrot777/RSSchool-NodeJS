@@ -2,14 +2,14 @@
  * Board repository
  * @module board/repository
  */
-const DB = require('../../common/DB');
-
+import * as DB from '../../common/DB';
+import { IBoard } from './board.model';
 /**
  * To get all boards
  * @returns {Promise<Array<Board>>} promise (array) of boards
  * {@link module:board/repository}
  */
-const getAll = async () => DB.getAllBoards();
+const getAll = async (): Promise<IBoard[]> => DB.getAllBoards();
 
 /**
  * To get simple board by his id
@@ -17,7 +17,7 @@ const getAll = async () => DB.getAllBoards();
  * @returns {Promise<Board>} promise, one simple board
  * {@link module:board/repository}
  */
-const getByID = async id => {
+const getByID = async (id: string): Promise<IBoard> => {
   const board = await DB.getBoardByID(id);
   if (!board) {
     throw new Error(`Board with id ${id} was not found`);
@@ -31,7 +31,7 @@ const getByID = async id => {
  * @returns {Promise<User>} promise, one board
  * {@link module:board/repository}
  */
-const create = async board => DB.createBoard(board);
+const create = async (board: IBoard): Promise<IBoard | undefined> => DB.createBoard(board);
 
 /**
  * To update some board data
@@ -40,7 +40,7 @@ const create = async board => DB.createBoard(board);
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const update = async (id, body) => {
+const update = async (id: string, body: IBoard): Promise<IBoard> => {
   const dbBoards = await DB.getBoardByID(id);
   if (!dbBoards) {
     throw new Error(`Board with id ${id} was not found`);
@@ -57,15 +57,14 @@ const update = async (id, body) => {
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const remove = async id => {
+const remove = async (id: string) => {
   const dbBoards = await DB.getBoardByID(id);
   if (!dbBoards) {
     throw new Error(`Board with id ${id} was not found`);
   }
 
-  const boardToRemove = { ...dbBoards};
   await DB.removeBoard(dbBoards);
-  return boardToRemove;
+  return dbBoards;
 };
 
-module.exports = { getAll, getByID, create, update, remove };
+export { getAll, getByID, create, update, remove };
