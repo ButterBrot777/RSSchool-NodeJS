@@ -3,8 +3,7 @@ import {
   getStatusCode
 } from 'http-status-codes';
 import express from 'express';
-
-const { logger } = require('./logger');
+import { logger } from './logger';
 
 export const errorHandler = async (err:any, _req:express.Request, res:express.Response, next:express.NextFunction) => {
   if (err) {
