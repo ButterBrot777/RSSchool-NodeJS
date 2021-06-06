@@ -20,10 +20,6 @@ const getAll = (boardId: string): Promise<Task[]> => tasksRepo.getAll(boardId);
  * {@link module:task/repository}
  */
 const getByID = (id: string): Promise<Task> => tasksRepo.getByID(id);
-// const getByID = (boardId, taskId) => {
-//     const res = DB.tasks.filter((task) => task.boardId === boardId && task.id === taskId)[0];
-//     return res;
-// };
 
 /**
  * To create a new task

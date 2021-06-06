@@ -4,6 +4,9 @@
  */
 import * as DB from '../../common/DB';
 import { Board } from './board.model';
+
+const createError = require('http-errors')
+
 /**
  * To get all boards
  * @returns {Promise<Array<Board>>} promise (array) of boards
@@ -20,7 +23,7 @@ const getAll = async (): Promise<Board[]> => DB.getAllBoards();
 const getByID = async (id: string): Promise<Board> => {
   const board = await DB.getBoardByID(id);
   if (!board) {
-    throw new Error(`Board with id ${id} was not found`);
+    throw new createError.NotFound();
   }
   return board;
 };
@@ -43,7 +46,7 @@ const create = async (board: Board): Promise<Board | undefined> => DB.createBoar
 const update = async (id: string, body: Board): Promise<Board> => {
   const dbBoards = await DB.getBoardByID(id);
   if (!dbBoards) {
-    throw new Error(`Board with id ${id} was not found`);
+    throw new createError.NotFound();
   }
 
   await DB.updateBoard(dbBoards, body);

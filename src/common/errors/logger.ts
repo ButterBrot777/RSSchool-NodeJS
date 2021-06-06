@@ -3,6 +3,13 @@ import express from 'express';
 
 const path = require('path');
 
+export interface IError {
+  code?: string;
+  message?: string;
+  stack?: string;
+  status?: string;
+}
+
 export const logger = createLogger({
   level: 'silly',
   transports: [
@@ -29,7 +36,7 @@ export const logInfo = (req: express.Request, _res:express.Response, next:expres
   next();
 };
 
-export const logError = (err:any, _req:express.Request, _res:express.Response, next:express.NextFunction) => {
+export const logError = (err:IError, _req:express.Request, _res:express.Response, next:express.NextFunction) => {
   logger.error(
     `ERROR: ${err.code || 500} ${err.message || 'Internal Server Error'}, 
     Details: ${err.stack}`
@@ -37,6 +44,6 @@ export const logError = (err:any, _req:express.Request, _res:express.Response, n
   next(err);
 };
 
-export const logProcessErrors = (message: string, err: any) => {
+export const logProcessErrors = (message: string, err: IError) => {
   logger.error(`Error: ${err.code || 500} ${message}`);
 };

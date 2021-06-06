@@ -21,6 +21,7 @@
     "module": "CommonJS",
     "sourceMap": true,
     "declaration": true,
+    "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
   },
   "exclude": [

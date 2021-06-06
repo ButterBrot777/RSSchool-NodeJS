@@ -5,6 +5,8 @@
 import * as DB from '../../common/DB';
 import { Task } from './task.model';
 
+const createError = require('http-errors')
+
 /**
  * To get all tasks on concrete board
  * @param {String} boardId board id
@@ -22,7 +24,7 @@ const getAll = async (boardId: string):Promise<Task[]> => DB.getAllTasks(boardId
 const getByID = async (id: string): Promise<Task> => {
   const task = await DB.getTaskByID(id);
   if (!task) {
-    throw new Error(`Task with id ${id} was not found`);
+    throw new createError.NotFound();
   }
   return task;
 };
@@ -46,7 +48,7 @@ const create = async (boardId: string, body: Task): Promise<Task | undefined> =>
 const update = async (id: string, body: Task): Promise<Task> => {
   const dbTask = await DB.updateTask(id, body);
   if (!dbTask) {
-    throw new Error(`Task with id ${id} was not found`);
+    throw new createError.NotFound();
   }
   return dbTask;
 };
@@ -60,7 +62,7 @@ const update = async (id: string, body: Task): Promise<Task> => {
 const remove = async (id: string): Promise<Task[]> => {
   const dbTask = await DB.removeTask(id);
   if (!dbTask) {
-    throw new Error(`Task with id ${id} was not found`);
+    throw new createError.NotFound();
   }
   return dbTask;
 };
