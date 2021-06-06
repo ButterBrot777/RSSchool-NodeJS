@@ -1,5 +1,6 @@
-const { v4: uuidv4 } = require('uuid');
 import { Column } from '../columns/column.model';
+
+const { v4: uuidv4 } = require('uuid');
 
 export interface IBoard {
   id?: string;
@@ -16,7 +17,9 @@ export interface IBoard {
  */
 export class Board implements IBoard {
   id: string;
+
   title: string;
+
   columns: Column[];
 
   constructor({

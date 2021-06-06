@@ -4,6 +4,7 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
+
 export interface ITask {
   id?: string;
   title?: string;
@@ -26,11 +27,17 @@ export interface ITask {
  */
 export class Task implements ITask {
   id: string;
+
   title: string;
+
   order: string;
+
   description: string;
+
   userId: string | null;
+
   boardId: string | null;
+
   columnId: string | null;
 
   constructor({

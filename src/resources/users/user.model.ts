@@ -4,6 +4,7 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
+
 export interface IUser {
   id?: string;
   name?: string;
@@ -20,8 +21,11 @@ export interface IUser {
  */
 export class User implements IUser {
   id: string;
+
   name: string;
+
   login: string;
+
   password: string;
 
   constructor({

@@ -3,8 +3,6 @@
  * @module common/DB
  */
 
-const { v4: uuidv4 } = require('uuid');
-
 /**
  * User instance
  * @typedef {Object} User
@@ -39,6 +37,8 @@ import { Board } from '../resources/boards/board.model';
  * @property {String} order some order
  */
 import { Task } from "../resources/tasks/task.model";
+
+const { v4: uuidv4 } = require('uuid');
 
 /**
  * Database as an object
@@ -189,8 +189,8 @@ const createBoard = async (board: Board): Promise<Board | undefined> => {
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const updateBoard = async (dbBoard: Board, body: Board): Promise<Board | undefined> => {
-  return Object.assign(dbBoard, {...body});
+const updateBoard = async (dbBoard: Board, body: Board): Promise<Board | undefined> => 
+   Object.assign(dbBoard, {...body})
 
   // const boardIndex: number = DB.boards.findIndex(board => board.id === dbBoard.id);
   // DB.boards[boardIndex]!.title = body.title
@@ -201,7 +201,7 @@ const updateBoard = async (dbBoard: Board, body: Board): Promise<Board | undefin
   //   : DB.boards[dbBoard.id].columns;
   //
   // return DB.boards[boardIndex];
-};
+;
 
 /**
  * To delete some board

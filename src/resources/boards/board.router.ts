@@ -1,6 +1,7 @@
 import express from 'express';
 import {Board} from './board.model';
 import * as boardsService from './board.service';
+
 export const router = express.Router();
 // const { catchErrors } = require('../../common/errorHandler');
 

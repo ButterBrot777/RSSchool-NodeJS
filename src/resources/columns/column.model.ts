@@ -21,7 +21,9 @@ export interface IColumn {
  */
 export class Column {
     id: string;
+
     title: string;
+
     order: string;
 
     constructor({id = uuidv4(), title = 'ColumnTitle', order = 'Order'} = {}) {
