@@ -41,8 +41,8 @@ export class User implements IUser {
    * @param {User} user user instance
    * @returns {Object} object exclude password field
    */
-  static toResponse(user: IUser) {
-    const { id, name, login } = user;
+  static toResponse(user: User | undefined) {
+    const { id, name, login } = user!;
     return { id, name, login };
   }
 }

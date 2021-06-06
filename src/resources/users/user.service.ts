@@ -2,7 +2,7 @@
  * User service
  * @module users/service
  */
-import { IUser, User } from './user.model';
+import { User } from './user.model';
 import * as usersRepo from './user.memory.repository'
 
 /**
@@ -26,7 +26,7 @@ const getByID = (id: string): Promise<User> => usersRepo.getByID(id);
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const create = (user: IUser): Promise<User | undefined> => usersRepo.create(user);
+const create = (user: User): Promise<User | undefined> => usersRepo.create(user);
 
 /**
  * To update some user data
@@ -35,7 +35,7 @@ const create = (user: IUser): Promise<User | undefined> => usersRepo.create(user
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const update = (id: string, body: IUser): Promise<User | undefined> => usersRepo.update(id, body);
+const update = (id: string, body: User): Promise<User | undefined> => usersRepo.update(id, body);
 
 /**
  * To delete some user

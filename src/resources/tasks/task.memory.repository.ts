@@ -3,7 +3,7 @@
  * @module task/repository
  */
 import * as DB from '../../common/DB';
-import { ITask } from './task.model';
+import { Task } from './task.model';
 
 /**
  * To get all tasks on concrete board
@@ -11,7 +11,7 @@ import { ITask } from './task.model';
  * @returns {Promise<Array<Task>>} promise (array) of tasks on concrete board
  * {@link module:task/repository}
  */
-const getAll = async (boardId: string):Promise<ITask[]> => DB.getAllTasks(boardId);
+const getAll = async (boardId: string):Promise<Task[]> => DB.getAllTasks(boardId);
 
 /**
  * To get one task by his id
@@ -19,7 +19,7 @@ const getAll = async (boardId: string):Promise<ITask[]> => DB.getAllTasks(boardI
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const getByID = async (id: string): Promise<ITask> => {
+const getByID = async (id: string): Promise<Task> => {
   const task = await DB.getTaskByID(id);
   if (!task) {
     throw new Error(`Task with id ${id} was not found`);
@@ -34,7 +34,7 @@ const getByID = async (id: string): Promise<ITask> => {
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const create = async (boardId: string, body: ITask): Promise<ITask | undefined> => DB.createTask(boardId, body);
+const create = async (boardId: string, body: Task): Promise<Task | undefined> => DB.createTask(boardId, body);
 
 /**
  * Forwards new props to be applied to task on board
@@ -43,7 +43,7 @@ const create = async (boardId: string, body: ITask): Promise<ITask | undefined> 
  * @returns {Promise<Task>}
  * {@link module:task/repository}
  */
-const update = async (id: string, body: ITask): Promise<ITask> => {
+const update = async (id: string, body: Task): Promise<Task> => {
   const dbTask = await DB.updateTask(id, body);
   if (!dbTask) {
     throw new Error(`Task with id ${id} was not found`);
@@ -57,7 +57,7 @@ const update = async (id: string, body: ITask): Promise<ITask> => {
  * @returns {Promise<Task>} task one task
  * {@link module:task/repository}
  */
-const remove = async (id: string): Promise<ITask[]> => {
+const remove = async (id: string): Promise<Task[]> => {
   const dbTask = await DB.removeTask(id);
   if (!dbTask) {
     throw new Error(`Task with id ${id} was not found`);

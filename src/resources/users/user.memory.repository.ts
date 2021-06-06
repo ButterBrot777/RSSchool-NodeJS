@@ -3,7 +3,7 @@
  * @module user/repository
  */
 import * as DB from '../../common/DB';
-import { IUser, User } from './user.model';
+import { User } from './user.model';
 
 /**
  * To get all users
@@ -32,7 +32,7 @@ const getByID = async (id:string): Promise<User> => {
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const create = async (user: IUser): Promise<User | undefined> => DB.createUser(user);
+const create = async (user: User): Promise<User | undefined> => DB.createUser(user);
 
 /**
  * To update some user data
@@ -41,7 +41,7 @@ const create = async (user: IUser): Promise<User | undefined> => DB.createUser(u
  * @returns {Promise<User>} promise, one user
  * {@link module:user/repository}
  */
-const update = async (id: string, body:IUser): Promise<User | undefined> => {
+const update = async (id: string, body:User): Promise<User | undefined> => {
   const userFromDB = await DB.getUserByID(id);
   if (!userFromDB) {
     throw new Error(`User with id ${id} was not found`);

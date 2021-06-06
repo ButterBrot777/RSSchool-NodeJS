@@ -3,7 +3,7 @@
  * @module task/service
  */
 import * as tasksRepo from './task.memory.repository';
-import { ITask } from './task.model';
+import { Task } from './task.model';
 
 /**
  * To get all tasks on concrete board
@@ -11,7 +11,7 @@ import { ITask } from './task.model';
  * @returns {Promise<Array<Task>>} promise (array) of tasks on concrete board
  * {@link module:task/repository}
  */
-const getAll = (boardId: string): Promise<ITask[]> => tasksRepo.getAll(boardId);
+const getAll = (boardId: string): Promise<Task[]> => tasksRepo.getAll(boardId);
 
 /**
  * To get one task by his id
@@ -19,7 +19,7 @@ const getAll = (boardId: string): Promise<ITask[]> => tasksRepo.getAll(boardId);
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const getByID = (id: string): Promise<ITask> => tasksRepo.getByID(id);
+const getByID = (id: string): Promise<Task> => tasksRepo.getByID(id);
 // const getByID = (boardId, taskId) => {
 //     const res = DB.tasks.filter((task) => task.boardId === boardId && task.id === taskId)[0];
 //     return res;
@@ -32,7 +32,7 @@ const getByID = (id: string): Promise<ITask> => tasksRepo.getByID(id);
  * @returns {Promise<Task>} promise, one task
  * {@link module:task/repository}
  */
-const create = (boardId: string, body: ITask) => tasksRepo.create(boardId, body);
+const create = (boardId: string, body: Task) => tasksRepo.create(boardId, body);
 
 /**
  * Forwards new props to be applied to task on board
@@ -41,13 +41,13 @@ const create = (boardId: string, body: ITask) => tasksRepo.create(boardId, body)
  * @returns {Promise<Task>}
  * {@link module:task/repository}
  */
-const update = (id: string, body: ITask) => tasksRepo.update(id, body);
+const update = (id: string, body: Task) => tasksRepo.update(id, body);
 
 /**
  * To delete task
  * @param {String} id task id
  * {@link module:task/repository}
  */
-const remove = (id: string): Promise<ITask[]> => tasksRepo.remove(id);
+const remove = (id: string): Promise<Task[]> => tasksRepo.remove(id);
 
 export {getAll, getByID, create, update, remove};

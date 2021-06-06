@@ -3,13 +3,13 @@
  * @module board/repository
  */
 import * as DB from '../../common/DB';
-import { IBoard } from './board.model';
+import { Board } from './board.model';
 /**
  * To get all boards
  * @returns {Promise<Array<Board>>} promise (array) of boards
  * {@link module:board/repository}
  */
-const getAll = async (): Promise<IBoard[]> => DB.getAllBoards();
+const getAll = async (): Promise<Board[]> => DB.getAllBoards();
 
 /**
  * To get simple board by his id
@@ -17,7 +17,7 @@ const getAll = async (): Promise<IBoard[]> => DB.getAllBoards();
  * @returns {Promise<Board>} promise, one simple board
  * {@link module:board/repository}
  */
-const getByID = async (id: string): Promise<IBoard> => {
+const getByID = async (id: string): Promise<Board> => {
   const board = await DB.getBoardByID(id);
   if (!board) {
     throw new Error(`Board with id ${id} was not found`);
@@ -31,7 +31,7 @@ const getByID = async (id: string): Promise<IBoard> => {
  * @returns {Promise<User>} promise, one board
  * {@link module:board/repository}
  */
-const create = async (board: IBoard): Promise<IBoard | undefined> => DB.createBoard(board);
+const create = async (board: Board): Promise<Board | undefined> => DB.createBoard(board);
 
 /**
  * To update some board data
@@ -40,7 +40,7 @@ const create = async (board: IBoard): Promise<IBoard | undefined> => DB.createBo
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const update = async (id: string, body: IBoard): Promise<IBoard> => {
+const update = async (id: string, body: Board): Promise<Board> => {
   const dbBoards = await DB.getBoardByID(id);
   if (!dbBoards) {
     throw new Error(`Board with id ${id} was not found`);

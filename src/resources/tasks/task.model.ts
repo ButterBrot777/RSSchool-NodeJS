@@ -24,7 +24,7 @@ export interface ITask {
  * @property {String} boardId board id
  * @property {String} columnId column id
  */
-export class Task {
+export class Task implements ITask {
   id: string;
   title: string;
   order: string;

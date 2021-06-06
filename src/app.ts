@@ -22,6 +22,6 @@ app.use('/', (req:express.Request, res, next) => {
 });
 
 app.use('/users', userRouter);
-app.use('/boards', [boardRouter, taskRouter]);
+app.use('/boards', boardRouter, taskRouter);
 
 export { app }
