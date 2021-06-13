@@ -1,8 +1,8 @@
 FROM node:14.17
 
-WORKDIR /
+WORKDIR /usr/app/
 COPY package*.json .
 RUN npm install
 COPY . .
-EXPOSE 4000
-CMD [ "node", "build/server.js" ]
+EXPOSE ${PORT}
+CMD ["npm", "run", "docker"]
