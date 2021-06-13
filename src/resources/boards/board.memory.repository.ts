@@ -2,7 +2,7 @@
  * Board repository
  * @module board/repository
  */
-import * as DB from '../../common/DB';
+import * as DB from '../../common/db/db';
 import { Board } from './board.model';
 
 const createError = require('http-errors')

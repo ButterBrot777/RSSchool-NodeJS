@@ -2,7 +2,7 @@
  * User repository
  * @module user/repository
  */
-import * as DB from '../../common/DB';
+import * as DB from '../../common/db/db';
 import { User } from './user.model';
 
 /**

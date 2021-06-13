@@ -2,7 +2,7 @@
  * Task repository
  * @module task/repository
  */
-import * as DB from '../../common/DB';
+import * as DB from '../../common/db/db';
 import { Task } from './task.model';
 
 const createError = require('http-errors')
