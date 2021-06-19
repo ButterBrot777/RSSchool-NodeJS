@@ -1,0 +1,17 @@
+{
+  "source": {
+    "include": [
+      "./src/resources/common/db.js",
+      "./src/resources/boards",
+      "./src/resources/columns",
+      "./src/resources/users",
+      "./src/resources/tasks"
+    ],
+    "exclude": [],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "template": "node_modules/docdash"
+  }
+}
