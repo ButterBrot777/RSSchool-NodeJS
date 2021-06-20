@@ -2,8 +2,9 @@
  * Board repository
  * @module board/repository
  */
-import * as DB from '../../common/db/db';
+// import * as DB from '../../common/db/db';
 import { Board } from './board.model';
+import { Task } from '../tasks/task.model';
 
 const createError = require('http-errors')
 
@@ -12,7 +13,8 @@ const createError = require('http-errors')
  * @returns {Promise<Array<Board>>} promise (array) of boards
  * {@link module:board/repository}
  */
-const getAll = async (): Promise<Board[]> => DB.getAllBoards();
+// const getAll = async (): Promise<Board[]> => DB.getAllBoards();
+const getAll = async () => Board.find();
 
 /**
  * To get simple board by his id
@@ -21,7 +23,8 @@ const getAll = async (): Promise<Board[]> => DB.getAllBoards();
  * {@link module:board/repository}
  */
 const getByID = async (id: string): Promise<Board> => {
-  const board = await DB.getBoardByID(id);
+  // const board = await DB.getBoardByID(id);
+  const board = await Board.findOne({id: id})
   if (!board) {
     throw new createError.NotFound();
   }
@@ -34,8 +37,12 @@ const getByID = async (id: string): Promise<Board> => {
  * @returns {Promise<User>} promise, one board
  * {@link module:board/repository}
  */
-const create = async (board: Board): Promise<Board | undefined> => DB.createBoard(board);
-
+// const create = async (board: Board): Promise<Board | undefined> => DB.createBoard(board);
+const create = async (board: Board): Promise<Board> => {
+  const newBoard = new Board(board);
+  await newBoard.save();
+  return newBoard;
+}
 /**
  * To update some board data
  * @param {String} id board id
@@ -43,16 +50,24 @@ const create = async (board: Board): Promise<Board | undefined> => DB.createBoar
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const update = async (id: string, body: Board): Promise<Board> => {
-  const dbBoards = await DB.getBoardByID(id);
-  if (!dbBoards) {
-    throw new createError.NotFound();
+// const update = async (id: string, body: Board): Promise<Board> => {
+//   const dbBoards = await DB.getBoardByID(id);
+//   if (!dbBoards) {
+//     throw new createError.NotFound();
+//   }
+//
+//   await DB.updateBoard(dbBoards, body);
+//   const updatedBoard = await getByID(id);
+//   return updatedBoard;
+// };
+const update = async (id: string, body: Board): Promise<Board | undefined> => {
+  const board = await Board.findOne({id: id});
+  if (!board) {
+    throw new Error('User not found');
   }
-
-  await DB.updateBoard(dbBoards, body);
-  const updatedBoard = await getByID(id);
-  return updatedBoard;
-};
+  await Board.update(id, body);
+  return Board.findOne(id);
+}
 
 /**
  * To delete some board
@@ -60,13 +75,20 @@ const update = async (id: string, body: Board): Promise<Board> => {
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const remove = async (id: string) => {
-  const dbBoards = await DB.getBoardByID(id);
+const remove = async (id: string): Promise<Board> => {
+  // const dbBoards = await DB.getBoardByID(id);
+  const dbBoards = await Board.findOne({id: id});
   if (!dbBoards) {
     throw new Error(`Board with id ${id} was not found`);
   }
-
-  await DB.removeBoard(dbBoards);
+  // await DB.removeBoard(dbBoards);
+  // return dbBoards;
+  await dbBoards.remove();
+  const updateTasks = await Task.find({boardId: id});
+  updateTasks.forEach(task=>{
+    task.boardId = null;
+    task.save();
+  })
   return dbBoards;
 };
 

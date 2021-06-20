@@ -2,6 +2,7 @@
  * User model
  * @module user/model
  */
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -19,13 +20,19 @@ export interface IUser {
  * @param {String} login user login
  * @param {String} password user password
  */
-export class User implements IUser {
+
+@Entity({name: 'User'})
+export class User extends BaseEntity {
+  @PrimaryColumn('varchar', {length: 100})
   id: string;
 
+  @Column('varchar', {length: 100})
   name: string;
 
+  @Column('varchar', {length: 100})
   login: string;
 
+  @Column('varchar', {length: 100})
   password: string;
 
   constructor({
@@ -34,6 +41,7 @@ export class User implements IUser {
     login = 'user',
     password = 'P@55w0rd'
   } = {}) {
+    super();
     this.id = id;
     this.name = name;
     this.login = login;

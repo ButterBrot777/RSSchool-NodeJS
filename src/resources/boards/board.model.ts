@@ -1,3 +1,4 @@
+import { BaseEntity, Entity, PrimaryColumn, Column as ColumnType } from 'typeorm';
 import { Column } from '../columns/column.model';
 
 const { v4: uuidv4 } = require('uuid');
@@ -15,18 +16,24 @@ export interface IBoard {
  * @param {String} board title
  * @param {Array<Column>} board columns
  */
-export class Board implements IBoard {
+
+@Entity({name: 'Board'})
+export class Board extends BaseEntity implements IBoard {
+  @PrimaryColumn('varchar', {length: 100})
   id: string;
 
+  @ColumnType('varchar', {length: 100})
   title: string;
 
-  columns: Column[];
+  @ColumnType('varchar', {length: 100})
+  columns: Array<Column>;
 
   constructor({
     id = uuidv4(),
     title = 'ButterBoard',
     columns = [new Column()]
   } = {}) {
+    super();
     this.id = id;
     this.title = title;
     this.columns = columns;

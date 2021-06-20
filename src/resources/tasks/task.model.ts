@@ -2,6 +2,7 @@
  * Task model
  * @module task/model
  */
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -25,20 +26,28 @@ export interface ITask {
  * @property {String} boardId board id
  * @property {String} columnId column id
  */
-export class Task implements ITask {
+@Entity({name: 'Task'})
+export class Task extends BaseEntity implements ITask {
+  @PrimaryColumn('varchar', {length: 100})
   id: string;
 
+  @Column('varchar', {length: 100})
   title: string;
 
+  @Column('varchar', {length: 100})
   order: string;
 
+  @Column('varchar', {length: 100})
   description: string;
 
-  userId: string | null;
-
+  @Column({ type: 'varchar', nullable: true })
   boardId: string | null;
 
+  @Column('varchar', {length: 100})
   columnId: string | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  userId: string | null;
 
   constructor({
     id = uuidv4(),
@@ -49,6 +58,7 @@ export class Task implements ITask {
     boardId = 'boardId',
     columnId = 'columnId'
   }: ITask = {}) {
+    super();
     this.id = id;
     this.title = title;
     this.order = order;
