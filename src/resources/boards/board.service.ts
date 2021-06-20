@@ -35,7 +35,7 @@ const create = (board: Board): Promise<Board | undefined> => boardsRepo.create(b
  * @returns {Promise<Board>} promise, one board
  * {@link module:board/repository}
  */
-const update = (id: string, body: Board): Promise<Board> => boardsRepo.update(id, body);
+const update = (id: string, body: Board): Promise<Board | undefined> => boardsRepo.update(id, body);
 
 /**
  * To delete some board

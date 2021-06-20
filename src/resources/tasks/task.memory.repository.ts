@@ -25,7 +25,7 @@ const getAll = async (boardId: string):Promise<Task[]> => Task.find({boardId :bo
  */
 const getByID = async (id: string): Promise<Task> => {
   // const task = await DB.getTaskByID(id);
-  const task = await Task.findOne({id: id})
+  const task = await Task.findOne(id)
   if (!task) {
     throw new createError.NotFound();
   }
@@ -56,7 +56,7 @@ const create = async (boardId: string, body: Task): Promise<Task | undefined> =>
  */
 const update = async (id: string, body: Task): Promise<Task | undefined> => {
   // const dbTask = await DB.updateTask(id, body);
-  const dbTask = await Task.findOne({id: id});
+  const dbTask = await Task.findOne(id);
 
   if (!dbTask) {
     throw new createError.NotFound();
@@ -74,7 +74,7 @@ const update = async (id: string, body: Task): Promise<Task | undefined> => {
  */
 const remove = async (id: string): Promise<Task[]> => {
   // const dbTask = await DB.removeTask(id);
-  const dbTask = await Task.findOne({id: id});
+  const dbTask = await Task.findOne(id);
   if (!dbTask) {
     throw new createError.NotFound();
   }

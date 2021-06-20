@@ -9,7 +9,6 @@ import { Task } from '../tasks/task.model';
 /**
  * To get all users
  * @returns {Promise<Array<User>>} promise (array) of users
- * {@link module:user/repository}
  */
 // const getAll = async (): Promise<User[]> => DB.getAllUsers();
 const getAll = async (): Promise<User[]> => User.find();
@@ -22,7 +21,7 @@ const getAll = async (): Promise<User[]> => User.find();
  */
 const getByID = async (id: string): Promise<User> => {
   // const user = await DB.getUserByID(id);
-  const user = await User.findOne({ id: id });
+  const user = await User.findOne(id);
   if (!user) {
     throw new Error(`User with id ${id} was not found`);
   }
@@ -50,7 +49,7 @@ const create = async (user: User) => {
  */
 const update = async (id: string, body: User): Promise<User | undefined> => {
   // const userFromDB = await DB.getUserByID(id);
-  const userFromDB = await User.findOne({ id: id });
+  const userFromDB = await User.findOne(id);
   if (!userFromDB) {
     throw new Error(`User with id ${id} was not found`);
   }
@@ -71,7 +70,7 @@ const update = async (id: string, body: User): Promise<User | undefined> => {
  */
 const remove = async (id: string): Promise<User> => {
   // const user = await DB.getUserByID(id);
-  const user = await User.findOne({ id: id });
+  const user = await User.findOne(id);
 
   if (!user) {
     throw new Error(`User with id ${id} was not found`);

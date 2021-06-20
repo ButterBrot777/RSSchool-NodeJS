@@ -24,7 +24,7 @@ const getAll = async () => Board.find();
  */
 const getByID = async (id: string): Promise<Board> => {
   // const board = await DB.getBoardByID(id);
-  const board = await Board.findOne({id: id})
+  const board = await Board.findOne(id)
   if (!board) {
     throw new createError.NotFound();
   }
@@ -61,12 +61,13 @@ const create = async (board: Board): Promise<Board> => {
 //   return updatedBoard;
 // };
 const update = async (id: string, body: Board): Promise<Board | undefined> => {
-  const board = await Board.findOne({id: id});
+  const board = await Board.findOne({id});
   if (!board) {
     throw new Error('User not found');
   }
   await Board.update(id, body);
-  return Board.findOne(id);
+  const newBoard = await Board.findOne(id);
+  return newBoard;
 }
 
 /**
@@ -77,7 +78,7 @@ const update = async (id: string, body: Board): Promise<Board | undefined> => {
  */
 const remove = async (id: string): Promise<Board> => {
   // const dbBoards = await DB.getBoardByID(id);
-  const dbBoards = await Board.findOne({id: id});
+  const dbBoards = await Board.findOne(id);
   if (!dbBoards) {
     throw new Error(`Board with id ${id} was not found`);
   }
