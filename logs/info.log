@@ -2888,3 +2888,6 @@
 {"message":"Url: /boards/aef49f88-84c6-46dc-8a7d-fa277810b932/tasks/1faa91c4-8d05-4d5a-bdbe-cce115932fc3, Params: {}, Body: {}","level":"info","timestamp":"2021-06-06T22:34:06.503Z"}
 {"message":"Url: /boards/aef49f88-84c6-46dc-8a7d-fa277810b932/tasks/17319d91-6667-4a6a-9e43-d67bdb640835, Params: {}, Body: {}","level":"info","timestamp":"2021-06-06T22:34:06.504Z"}
 {"message":"Url: /boards/aef49f88-84c6-46dc-8a7d-fa277810b932, Params: {}, Body: {}","level":"info","timestamp":"2021-06-06T22:34:06.506Z"}
+{"message":"Error: 500 Error: listen EADDRINUSE: address already in use :::4000","level":"error","timestamp":"2021-06-19T13:32:24.554Z"}
+{"message":"Error: 500 Error: listen EADDRINUSE: address already in use :::4000","level":"error","timestamp":"2021-06-19T13:32:27.383Z"}
+{"message":"Url: /boards/88c576a9-320c-402b-b02e-d507586cc0ce/task, Params: {}, Body: {}","level":"info","timestamp":"2021-06-20T15:52:01.512Z"}

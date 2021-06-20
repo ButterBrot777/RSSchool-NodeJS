@@ -35,6 +35,7 @@
   "plugins": ["@typescript-eslint", "import"],
   "parser": "@typescript-eslint/parser",
   "rules": {
+    "dot-notation": [2, {"allowKeywords": false, "allowPattern": ""}],
     "linebreak-style": "off",
     "import/extensions": "off",
     "no-underscore-dangle": "off",

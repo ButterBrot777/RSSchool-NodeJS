@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Express, RequestHandler } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from "yamljs";
@@ -11,10 +11,10 @@ import {
   logError,
   logProcessErrors } from './common/errors/logger';
 
-const app = express();
+const app: Express = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
-app.use(express.json());
+app.use(express.json() as RequestHandler);
 
 app.use(logInfo);
 

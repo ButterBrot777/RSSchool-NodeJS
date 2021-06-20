@@ -3,7 +3,7 @@ services:
   db:
     container_name: rsschool-nodejs_db
     image: postgres:13.3-alpine
-#    build: ./src/common/db/
+    build: ./src/common/db/
     restart: always
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
