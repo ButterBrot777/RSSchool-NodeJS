@@ -37,7 +37,7 @@ router.route('/:id').put(
   })
 );
 
-router.route('/:id').delete(
+router.route('/:id')["delete"](
   catchErrors(async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     await usersService.remove(id!);

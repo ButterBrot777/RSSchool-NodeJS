@@ -4,6 +4,7 @@
  */
 // import * as DB from '../../common/db/db';
 import { Task } from './task.model';
+
 const { v4: uuidv4 } = require('uuid');
 
 const createError = require('http-errors')
@@ -15,7 +16,7 @@ const createError = require('http-errors')
  * {@link module:task/repository}
  */
 // const getAll = async (boardId: string):Promise<Task[]> => DB.getAllTasks(boardId);
-const getAll = async (boardId: string):Promise<Task[]> => Task.find({boardId :boardId});
+const getAll = async (boardId: string):Promise<Task[]> => Task.find({boardId});
 
 /**
  * To get one task by his id

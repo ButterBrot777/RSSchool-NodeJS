@@ -36,7 +36,7 @@ router.route('/:boardId/tasks/:id').put(
   })
 );
 
-router.route('/:boardId/tasks/:id').delete(
+router.route('/:boardId/tasks/:id')["delete"](
   catchErrors(async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     await tasksService.remove(id!);

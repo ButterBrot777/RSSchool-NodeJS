@@ -4,7 +4,7 @@
  */
 // import * as DB from '../../common/db/db';
 import { Board } from './board.model';
-import { Task } from '../tasks/task.model';
+// import { Task } from '../tasks/task.model';
 
 const createError = require('http-errors')
 
@@ -85,11 +85,6 @@ const remove = async (id: string): Promise<Board> => {
   // await DB.removeBoard(dbBoards);
   // return dbBoards;
   await dbBoards.remove();
-  const updateTasks = await Task.find({boardId: id});
-  updateTasks.forEach(task=>{
-    task.boardId = null;
-    task.save();
-  })
   return dbBoards;
 };
 
