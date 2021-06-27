@@ -2,7 +2,8 @@
  * User model
  * @module user/model
  */
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import bcrypt from 'bcrypt';
+import { BaseEntity, BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -34,6 +35,11 @@ export class User extends BaseEntity {
 
   @Column('varchar', {length: 100})
   password: string;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
   constructor({
     id = uuidv4(),
