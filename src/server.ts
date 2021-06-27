@@ -1,4 +1,4 @@
-import { createConnection, getConnection } from 'typeorm';
+import { createConnection } from 'typeorm';
 
 import 'reflect-metadata';
 
@@ -8,23 +8,10 @@ import { app } from './app';
 
 import { PORT } from './common/config';
 
-(async () => {
-  let connection;
-  try {
-    connection = getConnection();
-  } catch(err) {
-    console.error(err);
-  }
-  try{
-    if (connection) {
-      if(connection.isConnected) await connection.connect()
-    } else {
-      await createConnection(config);
-    }
-    console.log('Connected!');
-  } catch (err) {
-    console.error(err);
-  }
-
-  app.listen(PORT, () => console.log(`App is running on http://localhost:${PORT}`));
-})();
+createConnection(config).then(async () => {
+  app.listen(PORT, () =>
+    console.log(`App is running on http://localhost:${PORT}`)
+  );
+}).then(() => {
+  console.log('Connection created')
+})["catch"](error => {console.log("TypeORM connection error: ", error)});

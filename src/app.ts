@@ -5,6 +5,8 @@ import YAML from "yamljs";
 import { router as userRouter } from './resources/users/user.router';
 import { router as boardRouter } from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
+import { loginRouter } from './resources/login/login.router';
+import { checkJWT } from './common/checkJWT';
 
 import {
   logInfo,
@@ -28,8 +30,10 @@ app.use('/', (req:express.Request, res, next) => {
   next();
 });
 
+app.use(checkJWT);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter, taskRouter);
+app.use(loginRouter);
 
 app.use(logError);
 
