@@ -35,20 +35,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-var typeorm_1 = require("typeorm");
-require("reflect-metadata");
-var ormconfig_1 = require("./common/ormconfig");
-var app_1 = require("./app");
-var config_1 = require("./common/config");
-typeorm_1.createConnection(ormconfig_1.config).then(function () { return __awaiter(void 0, void 0, void 0, function () {
+exports.loginRouter = void 0;
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var http_status_codes_1 = require("http-status-codes");
+var express_1 = __importDefault(require("express"));
+var express_async_handler_1 = __importDefault(require("express-async-handler"));
+var config_1 = require("../../common/config");
+var login_service_1 = require("./login.service");
+var loginRouter = express_1["default"].Router();
+exports.loginRouter = loginRouter;
+loginRouter.route('/login').post(express_async_handler_1["default"](function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, realUser, payload, jwtToken;
     return __generator(this, function (_a) {
-        app_1.app.listen(config_1.PORT, function () {
-            return console.log("App is running on http://localhost:" + config_1.PORT);
-        });
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                user = req.body;
+                return [4 /*yield*/, login_service_1.authenticateUser(user)];
+            case 1:
+                realUser = _a.sent();
+                if (realUser) {
+                    payload = { userId: realUser.id, login: realUser.login };
+                    jwtToken = jsonwebtoken_1["default"].sign(payload, String(config_1.JWT_SECRET_KEY));
+                    return [2 /*return*/, res.status(http_status_codes_1.StatusCodes.OK).json({ token: jwtToken })];
+                }
+                return [2 /*return*/, res.status(http_status_codes_1.StatusCodes.FORBIDDEN).json(http_status_codes_1.ReasonPhrases.FORBIDDEN)];
+        }
     });
-}); }).then(function () {
-    console.log('Connection created');
-})["catch"](function (error) { console.log("TypeORM connection error: ", error); });
-//# sourceMappingURL=server.js.map
+}); }));
+//# sourceMappingURL=login.router.js.map

@@ -35,20 +35,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
+exports.authenticateUser = void 0;
 var typeorm_1 = require("typeorm");
-require("reflect-metadata");
-var ormconfig_1 = require("./common/ormconfig");
-var app_1 = require("./app");
-var config_1 = require("./common/config");
-typeorm_1.createConnection(ormconfig_1.config).then(function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        app_1.app.listen(config_1.PORT, function () {
-            return console.log("App is running on http://localhost:" + config_1.PORT);
+var bcrypt_1 = __importDefault(require("bcrypt"));
+var user_model_1 = require("../users/user.model");
+function authenticateUser(user) {
+    return __awaiter(this, void 0, void 0, function () {
+        var login, password, userRepository, foundUser, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    login = user.login, password = user.password;
+                    userRepository = typeorm_1.getManager().getRepository(user_model_1.User);
+                    return [4 /*yield*/, userRepository.findOne({ login: login })];
+                case 1:
+                    foundUser = _b.sent();
+                    _a = foundUser;
+                    if (!_a) return [3 /*break*/, 3];
+                    return [4 /*yield*/, bcrypt_1["default"].compare(String(password), String(foundUser === null || foundUser === void 0 ? void 0 : foundUser.password))];
+                case 2:
+                    _a = (_b.sent());
+                    _b.label = 3;
+                case 3:
+                    if (_a) {
+                        return [2 /*return*/, foundUser];
+                    }
+                    return [2 /*return*/, false];
+            }
         });
-        return [2 /*return*/];
     });
-}); }).then(function () {
-    console.log('Connection created');
-})["catch"](function (error) { console.log("TypeORM connection error: ", error); });
-//# sourceMappingURL=server.js.map
+}
+exports.authenticateUser = authenticateUser;
+//# sourceMappingURL=login.service.js.map

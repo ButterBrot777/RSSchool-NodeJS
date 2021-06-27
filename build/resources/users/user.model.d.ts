@@ -1,7 +1,3 @@
-/**
- * User model
- * @module user/model
- */
 import { BaseEntity } from 'typeorm';
 export interface IUser {
     id?: string;
@@ -22,6 +18,7 @@ export declare class User extends BaseEntity {
     name: string;
     login: string;
     password: string;
+    hashPassword(): Promise<void>;
     constructor({ id, name, login, password }?: {
         id?: any;
         name?: string | undefined;

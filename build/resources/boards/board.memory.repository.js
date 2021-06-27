@@ -43,7 +43,7 @@ exports.remove = exports.update = exports.create = exports.getByID = exports.get
  */
 // import * as DB from '../../common/db/db';
 var board_model_1 = require("./board.model");
-var task_model_1 = require("../tasks/task.model");
+// import { Task } from '../tasks/task.model';
 var createError = require('http-errors');
 /**
  * To get all boards
@@ -142,7 +142,7 @@ exports.update = update;
  * {@link module:board/repository}
  */
 var remove = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var dbBoards, updateTasks;
+    var dbBoards;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, board_model_1.Board.findOne(id)];
@@ -158,13 +158,6 @@ var remove = function (id) { return __awaiter(void 0, void 0, void 0, function (
                 // await DB.removeBoard(dbBoards);
                 // return dbBoards;
                 _a.sent();
-                return [4 /*yield*/, task_model_1.Task.find({ boardId: id })];
-            case 3:
-                updateTasks = _a.sent();
-                updateTasks.forEach(function (task) {
-                    task.boardId = null;
-                    task.save();
-                });
                 return [2 /*return*/, dbBoards];
         }
     });

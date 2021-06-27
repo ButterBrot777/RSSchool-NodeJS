@@ -11,6 +11,8 @@ var yamljs_1 = __importDefault(require("yamljs"));
 var user_router_1 = require("./resources/users/user.router");
 var board_router_1 = require("./resources/boards/board.router");
 var task_router_1 = require("./resources/tasks/task.router");
+var login_router_1 = require("./resources/login/login.router");
+var checkJWT_1 = require("./common/checkJWT");
 var logger_1 = require("./common/errors/logger");
 var app = express_1["default"]();
 exports.app = app;
@@ -25,8 +27,10 @@ app.use('/', function (req, res, next) {
     }
     next();
 });
+app.use(checkJWT_1.checkJWT);
 app.use('/users', user_router_1.router);
 app.use('/boards', board_router_1.router, task_router_1.router);
+app.use(login_router_1.loginRouter);
 app.use(logger_1.logError);
 process.on('uncaughtException', logger_1.logProcessErrors);
 // throw Error('Oops!');
